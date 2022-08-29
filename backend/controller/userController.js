@@ -1,5 +1,6 @@
 import UserModel from "../Models/UserModel.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -49,14 +50,42 @@ const loginUser = async (req, res) => {
     });
   }
   try {
-    const isExist = await UserModel.findOne({ email });
-    if (isExist) {
+    const isExist = await UserModel.findOne({ email }).select("+password");
+    if (!isExist) {
       return res.json({
         status: false,
         msg: "Wrong Credentials...",
       });
     }
-  } catch (error) {}
+
+    const isPassword = await bcrypt.compare(password, isExist.password);
+    if (!isPassword) {
+      return res.json({
+        status: false,
+        msg: "Wrong Credentials...",
+      });
+    }
+
+    const user = isExist;
+
+    const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET);
+    return res.json({
+      status: true,
+      user,
+      token,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-export { registerUser, loginUser };
+const getProfile = async (req, res) => {
+  const user = req.user;
+  const profile = await UserModel.findById(user._id).populate("group");
+  res.json({
+    status: true,
+    profile,
+  });
+};
+
+export { registerUser, loginUser,getProfile };

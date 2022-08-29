@@ -1,0 +1,1 @@
+Owner can add itself in group
