@@ -4,10 +4,12 @@ import dbConnect from "./db/dbConnect.js";
 import userRouter from "./Routes/userRouter.js";
 import groupRoute from "./Routes/groupRoute.js";
 import billRouter from "./Routes/billRoute.js";
+import cors from "cors";
 const app = express();
 
 dotenv.config();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 dbConnect();

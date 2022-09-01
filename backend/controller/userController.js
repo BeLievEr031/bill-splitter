@@ -31,6 +31,7 @@ const registerUser = async (req, res) => {
     user.save();
     return res.json({
       status: true,
+      msg: "User SignUp Successfully",
       user,
     });
   } catch (error) {
@@ -65,12 +66,13 @@ const loginUser = async (req, res) => {
         msg: "Wrong Credentials...",
       });
     }
-
+    isExist.password = null;
     const user = isExist;
 
     const token = jwt.sign({ userID: user._id }, process.env.JWT_SECRET);
     return res.json({
       status: true,
+      msg: "User Login Successfully",
       user,
       token,
     });
@@ -88,4 +90,4 @@ const getProfile = async (req, res) => {
   });
 };
 
-export { registerUser, loginUser,getProfile };
+export { registerUser, loginUser, getProfile };
