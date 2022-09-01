@@ -1,0 +1,24 @@
+.link {
+  display: block;
+  color: black;
+  font-size: 25px;
+  width: 100%;
+  height: 40px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: rgb(37 99 235);
+  color: white;
+}
+.link-hvr:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.fill-space {
+  height: 50%;
+}

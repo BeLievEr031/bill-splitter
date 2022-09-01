@@ -1,0 +1,60 @@
+.group-info {
+  width: 290px;
+  height: 280px;
+  position: relative;
+  border: 2px solid #e5e7eb;
+  border: 2px solid #e5e7eb;
+  padding-top: 10px;
+}
+
+.group-name {
+  font-size: 30px;
+  font-weight: bolder;
+  height: calc(280px / 5);
+
+  margin-left: 20px;
+}
+.group-desc {
+  margin-left: 20px;
+  margin-right: 20px;
+  height: calc(280px / 5);
+
+  font-size: 20px;
+  font-weight: lighter;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.expense {
+  height: calc(280px / 5);
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.members {
+  height: calc(280px / 5);
+
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.open-btn {
+  position: absolute;
+  bottom: 0;
+  height: calc(280px / 5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  cursor: pointer;
+  background-color: rgb(243 244 246);
+  width: 100%;
+}
+.open-btn b {
+  color: blue;
+  font-size: 20px;
+  margin-right: 5px;
+}
+.open-btn > span {
+  color: blue;
+}

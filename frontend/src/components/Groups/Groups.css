@@ -1,0 +1,9 @@
+.add-grp-btn {
+  background-color: blue;
+  color: white;
+  width: 150px;
+}
+
+.add-grp-btn:hover {
+  background-color: rgb(8, 8, 208);
+}

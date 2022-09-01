@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useContext } from "react";
 import { DataContext } from "../../../context/DataContextProvider";
 import { useRef } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function SignUp() {
   const loginRef = useRef();
   const navigate = useNavigate();
@@ -17,10 +17,10 @@ function SignUp() {
     password: "",
   });
   const [loginUser, setLoginUser] = useState({
-    email:"",
-    password:""
+    email: "",
+    password: "",
   });
-
+  const { setUser } = useContext(DataContext);
   const handleSignUser = (e) => {
     setSignUser({ ...signUser, [e.target.name]: e.target.value });
   };
@@ -68,11 +68,11 @@ function SignUp() {
     }
   };
 
-  const handleLoginUser = (e) =>{
+  const handleLoginUser = (e) => {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
-  }
+  };
 
-  const handleLogin = async (e) =>{
+  const handleLogin = async (e) => {
     e.preventDefault();
     console.log(loginUser);
 
@@ -105,10 +105,11 @@ function SignUp() {
         type: "success",
         theme: "dark",
       });
+      setUser({ ...res.user });
+      window.localStorage.setItem("isLogin", true);
       navigate("/app");
     }
-
-  }
+  };
   return (
     <>
       <div className="wrapper">
@@ -158,14 +159,14 @@ function SignUp() {
                 name="email"
                 placeholder="Email"
                 required
-                onChange={(e)=>handleLoginUser(e)}
+                onChange={(e) => handleLoginUser(e)}
               />
               <input
                 type="password"
                 name="password"
                 placeholder="Password"
                 required
-                onChange={(e)=>handleLoginUser(e)}
+                onChange={(e) => handleLoginUser(e)}
               />
               <button onClick={handleLogin}>Login</button>
             </div>

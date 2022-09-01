@@ -1,0 +1,78 @@
+.group-detail {
+  padding: 10px;
+}
+
+.group-detail .group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  border-bottom: 2px solid #e5e7eb;
+}
+.view-all {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: blue;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.link-view {
+  text-decoration: none;
+  color: blue;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.view-all > span {
+  margin-left: 10px;
+}
+
+.group-card {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.overview-cont {
+  display: flex;
+  flex-direction: column;
+  height: 179px;
+}
+.overview-cont > h1 {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.expense-overview {
+  height: 80%;
+  margin-left: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.expense-overview div {
+  width: 45%;
+  height: 90%;
+  border: 2px solid #e5e7eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lent {
+  font-size: 45px;
+  font-weight: bolder;
+  word-wrap: break-word;
+  color: rgb(22 163 74);
+}
+
+.owe {
+  font-size: 45px;
+  font-weight: bolder;
+  word-wrap: break-word;
+  color: rgb(220 38 38);
+}
