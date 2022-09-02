@@ -1,0 +1,101 @@
+.add-grp-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.add-grp-heading {
+  margin: 20px;
+}
+
+.group-details-box {
+  width: 45%;
+}
+
+.group-details-box input {
+  width: 100%;
+  height: 50px;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  padding: 5px;
+  border: 1px solid rgb(215, 213, 213);
+  outline: none;
+  border-radius: 1px;
+}
+
+.add-member-box {
+  width: 45%;
+  height: 450px;
+}
+
+.add-member-box::-webkit-scrollbar {
+  display: none;
+}
+
+.add-member-box h3 {
+  margin-left: 10px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+#search {
+  width: 70%;
+  height: 40px;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  border: 1px solid rgb(215, 213, 213);
+  outline: none;
+  border-radius: 1px;
+  margin: 0;
+}
+
+#search-btn {
+  width: 20%;
+  background-color: rgb(37,99,235);
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.sigl-member {
+  height: 18.25;
+  width: 90%;
+  margin:0 auto;
+}
+
+.member-list {
+  padding-left: 10px;
+  height: 73%;
+  overflow-y: scroll;
+}
+
+.member-list::-webkit-scrollbar {
+  display: none;
+}
+
+.user-member-detail {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.close-btn{
+    cursor: pointer;
+}

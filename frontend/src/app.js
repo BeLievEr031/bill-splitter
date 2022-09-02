@@ -7,6 +7,9 @@ import PrivateRoute from "./private/PrivateRoute";
 import Main from "./components/Main/Main";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Groups from "./components/Groups/Groups";
+import GroupDetails from "./components/GroupDetails/GroupDetails";
+import AddGroup from "./components/AddGroup/AddGroup";
+import AddExpense from "./components/AddExpense/AddExpense";
 function App() {
   return (
     <>
@@ -23,8 +26,17 @@ function App() {
                 </PrivateRoute>
               }
             >
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="" element={<Dashboard />} />
+              <Route path="addgroup" element={<AddGroup />} />
               <Route path="groups" element={<Groups />} />
+              <Route
+                path="groups/details/:groupID"
+                element={<GroupDetails />}
+              />
+              <Route
+                path="groups/details/:groupID/addexpense"
+                element={<AddExpense />}
+              />
             </Route>
           </Routes>
         </DataContextProvider>

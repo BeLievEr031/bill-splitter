@@ -29,7 +29,7 @@ function Dashboard() {
             if (index >= 3) {
               return;
             }
-            return <GroupBox group={group} key={index} />;
+            return <GroupBox group={group} index={index} key={index} />;
           })}
         </div>
 

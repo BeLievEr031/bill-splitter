@@ -1,16 +1,44 @@
-import React from "react";
+import React, { useContext } from "react";
+import TableRow from "../TableRow/TableRow";
 import "./Groups.css";
+import { DataContext } from "../../context/DataContextProvider";
+import { useNavigate,Link } from "react-router-dom";
+
 function Groups() {
+  const { glbGroup } = useContext(DataContext);
+  const navigate = useNavigate();
+  const handleAddGroup = () => {
+    navigate("addgroup");
+  };
   return (
     <>
       <div className="group-detail">
-        <div className="group-header">
+        <div className="group-header" style={{ border: "none" }}>
           <h1>Your Groups</h1>
-          <button className="view-all add-grp-btn">
+          <Link to="/app/addgroup" className="view-all add-grp-btn" >
             <span className="material-symbols-outlined">add_circle</span>
             add Group
-          </button>
+          </Link>
         </div>
+      </div>
+
+      <div className="table-data">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Members</th>
+              <th>Total Expense</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {glbGroup.map((group, index) => {
+              return <TableRow group={group} index={index} key={index} />;
+            })}
+          </tbody>
+        </table>
       </div>
     </>
   );

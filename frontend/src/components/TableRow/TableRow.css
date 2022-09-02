@@ -1,0 +1,15 @@
+.grp-name {
+  font-weight: 600;
+}
+
+.action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: blue;
+  cursor: pointer;
+}
+.open {
+  text-transform: capitalize;
+  font-size: 20px;
+}

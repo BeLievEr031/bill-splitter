@@ -14,7 +14,7 @@ function SideBar() {
       <div className="nav-wrapper">
         <Link
           onClick={handleActive}
-          to="dashboard"
+          to=""
           className={`link ${active == "home" ? "active" : "link-hvr"}`}
         >
           Home
