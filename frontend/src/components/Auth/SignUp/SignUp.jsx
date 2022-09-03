@@ -20,7 +20,7 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const { setUser } = useContext(DataContext);
+  const { setUser, groupArr, setGroupArr } = useContext(DataContext);
   const handleSignUser = (e) => {
     setSignUser({ ...signUser, [e.target.name]: e.target.value });
   };
@@ -106,7 +106,9 @@ function SignUp() {
         theme: "dark",
       });
       setUser({ ...res.user });
-      window.localStorage.setItem("isLogin", true);
+
+      window.localStorage.setItem("token", res.token);
+      // setGroupArr([...groupArr, ...res.user.group]);
       navigate("/app");
     }
   };

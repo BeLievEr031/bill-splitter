@@ -1,9 +1,9 @@
 import GroupModel from "../Models/GroupModel.js";
 import UserModel from "../Models/UserModel.js";
 const createGroup = async (req, res) => {
-  const { name, members } = req.body;
+  const { groupname, desc, members } = req.body;
 
-  if (!name) {
+  if (!groupname) {
     return res.json({
       status: false,
       msg: "Name required...",
@@ -13,9 +13,10 @@ const createGroup = async (req, res) => {
   try {
     const user = req.user;
     let group = {
-      name,
+      groupname,
+      desc,
       owner: user._id,
-      members,
+      members: [user._id],
     };
 
     group = await new GroupModel(group);
@@ -39,7 +40,7 @@ const addMember = async (req, res) => {
   const { groupID } = req.params;
   if (!groupID) {
     return res.json({
-      status: true,
+      status: false,
       msg: "Invalid Group...",
     });
   }
@@ -97,7 +98,8 @@ const addMember = async (req, res) => {
 };
 
 const getGroupInfo = async (req, res) => {
-  const { groupID } = req.params;
+  const {groupID} = req.params;
+  console.log(groupID + "");
   if (!groupID) {
     return res.json({
       status: true,
@@ -125,4 +127,4 @@ const getGroupInfo = async (req, res) => {
     });
   }
 };
-export { createGroup, addMember,getGroupInfo };
+export { createGroup, addMember, getGroupInfo };

@@ -7,7 +7,7 @@ import GroupBox from "../GroupBox/GroupBox";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const { active, handleActive, glbGroup } = useContext(DataContext);
+  const { active, handleActive, glbGroup,groupArr } = useContext(DataContext);
 
   const handleViewAll = () => {
     navigate("/app/groups");
@@ -25,7 +25,7 @@ function Dashboard() {
         </div>
 
         <div className="group-card">
-          {glbGroup.map((group, index) => {
+          {groupArr.map((group, index) => {
             if (index >= 3) {
               return;
             }

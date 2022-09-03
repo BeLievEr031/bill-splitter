@@ -1,10 +1,11 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
-
+import axios from "axios";
 const DataContext = createContext();
 function DataContextProvider({ children }) {
   const [user, setUser] = useState(null);
   const [active, setActive] = useState("home");
+  const [memberArr, setMemberArr] = useState([]);
   const [glbGroup, setGlbGroup] = useState([
     {
       name: "abc",
@@ -44,6 +45,8 @@ function DataContextProvider({ children }) {
     },
   ]);
 
+  const [groupArr, setGroupArr] = useState([]);
+
   const handleActive = () => {
     if (active === "home") {
       setActive("group");
@@ -51,6 +54,24 @@ function DataContextProvider({ children }) {
       setActive("home");
     }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/v1/profile`,
+        headers: {
+          token: window.localStorage.getItem("token"),
+        },
+      });
+
+      console.log(response.data);
+      setMemberArr([...memberArr, { ...response.data.profile }]);
+      setGroupArr([...groupArr, ...response.data.profile.group]);
+    }
+
+    fetchData();
+  }, []);
   return (
     <DataContext.Provider
       value={{
@@ -59,6 +80,10 @@ function DataContextProvider({ children }) {
         active,
         handleActive,
         glbGroup,
+        groupArr,
+        setGroupArr,
+        memberArr,
+        setMemberArr,
       }}
     >
       {children}

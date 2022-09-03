@@ -51,7 +51,9 @@ const loginUser = async (req, res) => {
     });
   }
   try {
-    const isExist = await UserModel.findOne({ email }).select("+password");
+    const isExist = await UserModel.findOne({ email })
+      .select("+password")
+      .populate("group")
     if (!isExist) {
       return res.json({
         status: false,
@@ -90,4 +92,37 @@ const getProfile = async (req, res) => {
   });
 };
 
-export { registerUser, loginUser, getProfile };
+const getUser = async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body);
+  if (!email) {
+    return res.json({
+      status: false,
+      msg: "All fields required..",
+    });
+  }
+
+  try {
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.json({
+        status: false,
+        msg: "No User Found..",
+      });
+    }
+
+    res.json({
+      status: true,
+      msg: "User Added",
+      user,
+    });
+  } catch (error) {
+    return res.json({
+      status: false,
+      err: error.message,
+    });
+  }
+};
+
+export { registerUser, loginUser, getProfile, getUser };

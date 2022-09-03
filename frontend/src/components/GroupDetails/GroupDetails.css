@@ -1,0 +1,33 @@
+.group-expenditure {
+  width: 45%;
+  padding: 10px;
+}
+
+.status {
+  display: flex;
+  justify-content: space-around;
+}
+.s-active {
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+}
+.s-settled {
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+}
+.bill {
+  height: 416px;
+  overflow-y: scroll;
+}
+
+.all-active-bill {
+  width: 90%;
+  display: flex;
+  justify-content: space-evenly;
+  border: 2px solid gray;
+  margin: 0 auto;
+  padding: 5px;
+  margin-top: 5px;
+}

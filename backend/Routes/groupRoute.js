@@ -9,6 +9,6 @@ import {
 const groupRoute = express.Router();
 
 groupRoute.post("/create", auth, createGroup);
-groupRoute.post("/add/:groupID", auth, addMember);
+groupRoute.post("/addmember/:groupID", auth, addMember);
 groupRoute.get("/groupinfo/:groupID", auth, getGroupInfo);
 export default groupRoute;

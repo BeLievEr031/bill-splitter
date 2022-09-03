@@ -6,9 +6,9 @@ import { DataContext } from "../context/DataContextProvider";
 function PrivateRoute({ children }) {
   const navigate = useNavigate();
   const { user } = useContext(DataContext);
-  const isLogin = window.localStorage.getItem("isLogin");
+  const token = window.localStorage.getItem("token");
   useEffect(() => {
-    if (!user && !isLogin) {
+    if (!user && !token) {
       navigate("/");
       return;
     }
