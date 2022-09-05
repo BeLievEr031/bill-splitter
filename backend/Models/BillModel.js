@@ -34,6 +34,13 @@ const billSchema = new mongoose.Schema({
       },
     },
   ],
+
+  paid:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UserModel",
+    }
+  ]
 });
 
 const BillModel = new mongoose.model("BillModel", billSchema);

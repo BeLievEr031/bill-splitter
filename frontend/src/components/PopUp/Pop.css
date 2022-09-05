@@ -14,7 +14,6 @@
   padding: 10px;
   z-index: 9999;
   width: 500px;
-  height: 250px;
   border-radius: 10px;
   background-color: white;
   top: 50%;
@@ -44,7 +43,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  
 }
 
 .expense-settle {
@@ -53,6 +51,9 @@
   justify-content: space-evenly;
   flex-wrap: wrap;
   font-size: 14px;
+}
+.expense-settle > h3{
+  padding-left: 10px;
 }
 .expense-lent-owe {
   padding-left: 10px;
@@ -70,3 +71,22 @@
   font-size: 25px;
   text-transform: capitalize;
 }
+
+.settle-btn {
+  width: 80px;
+  height: 30px;
+  background-color: blue;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+

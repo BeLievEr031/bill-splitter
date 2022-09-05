@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContextProvider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function AddExpense() {
   const params = useParams();
-  const { user, glbCurrGrpMemberArr } = useContext(DataContext);
+  const { user } = useContext(DataContext);
   const [localCurrGrpMemberArr, setlocalCurrGrpMemberArr] = useState([]);
   useEffect(() => {
     async function fetchData() {
@@ -30,12 +32,24 @@ function AddExpense() {
     amount: "",
     desc: "",
   });
-  const navigate = useNavigate();
   const handleSetExpenseDetail = (e) => {
     console.log(expenseDetails);
     setExpenseDeatil({ ...expenseDetails, [e.target.name]: e.target.value });
   };
   const handleAddExpenseToDB = async () => {
+    if (Number(expenseDetails.amount) <= 0) {
+      return toast("The Amount Should be greater than 0", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        type: "error",
+        theme: "dark",
+      });
+    }
+
     let otherMember = localCurrGrpMemberArr.filter((member) => {
       return member._id !== user._id;
     });
@@ -68,6 +82,8 @@ function AddExpense() {
     });
 
     console.log(res.data);
+
+    window.location.reload();
   };
   return (
     <>
@@ -96,8 +112,12 @@ function AddExpense() {
           <br />
 
           <button>
-            <div
-              // to={`/app/groups/details/${params.groupID}`}
+            <Link
+              to={
+                Number(expenseDetails.amount) <= 0
+                  ? ""
+                  : `/app/groups/details/${params.groupID}`
+              }
               onClick={handleAddExpenseToDB}
               style={{
                 width: "100%",
@@ -109,10 +129,21 @@ function AddExpense() {
               }}
             >
               Add
-            </div>
+            </Link>
           </button>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

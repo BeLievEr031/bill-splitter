@@ -1,11 +1,9 @@
 import React from "react";
-import { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { DataContext } from "../../context/DataContextProvider";
 import "./SideBar.css";
 function SideBar() {
-  const { active, handleActive } = useContext(DataContext);
+  const [cactive, setCactive] = useState(true);
   return (
     <>
       <div className="logo">
@@ -13,16 +11,20 @@ function SideBar() {
       </div>
       <div className="nav-wrapper">
         <Link
-          onClick={handleActive}
+          onClick={() => {
+            setCactive(true);
+          }}
           to=""
-          className={`link ${active == "home" ? "active" : "link-hvr"}`}
+          className={`link ${cactive ? "active" : "link-hvr"}`}
         >
           Home
         </Link>
         <Link
-          onClick={handleActive}
+          onClick={() => {
+            setCactive(false);
+          }}
           to="groups"
-          className={`link ${active == "group" ? "active" : "link-hvr"}`}
+          className={`link ${cactive === false ? "active" : "link-hvr"}`}
         >
           Groups
         </Link>

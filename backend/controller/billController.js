@@ -69,4 +69,54 @@ const setBill = async (req, res) => {
   }
 };
 
-export { setBill };
+const payBill = async (req, res) => {
+  const { expenseID, payiID } = req.params;
+  console.log(expenseID);
+  console.log(payiID);
+  try {
+    let bill = await BillModel.findById(expenseID);
+
+    bill.owe.forEach(async (user) => {
+      if (JSON.stringify(user.payi_id) === JSON.stringify(payiID)) {
+        const cuser = await UserModel.findById(payiID);
+        cuser.owe = Number(cuser.owe) - Number(user.due_amount);
+        user.isPaid = true;
+        user.due_amount = 0;
+        bill.paid.push(user.payi_id);
+        await bill.save();
+        await cuser.save();
+      }
+    });
+
+    res.json({
+      status: true,
+      msg: "Bill Paid",
+      bill,
+    });
+  } catch (error) {
+    return res.json({
+      status: false,
+      msg: error.message,
+    });
+  }
+};
+
+const getBill = async (req, res) => {
+  const { expenseID } = req.params;
+
+  try {
+    const oweUsers = await BillModel.findById(expenseID).populate("paid");
+    console.log(oweUsers);
+    res.json({
+      status: true,
+      oweUsers,
+    });
+  } catch (error) {
+    res.json({
+      status: false,
+      msg: error.message,
+    });
+  }
+};
+
+export { setBill, payBill, getBill };

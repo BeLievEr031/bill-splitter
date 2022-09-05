@@ -17,8 +17,10 @@ function GroupDetails() {
     useContext(DataContext);
   const [activeBill, setActiveBill] = useState("active");
   const [color, setColor] = useState(true);
+  const [grpName, setGrpName] = useState("Group Name");
   const [currGrpMembers, setCurrGrpMembers] = useState([]);
   const [activeExpense, setActiveExpense] = useState([]);
+  const [settledExpense, setSettledExpense] = useState([]);
   const [userEmail, setUserEmail] = useState({
     email: "",
   });
@@ -55,6 +57,23 @@ function GroupDetails() {
   };
 
   useEffect(() => {
+    async function fetchData() {
+      let res = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/v1/settle/${params.groupID}`,
+        headers: {
+          token: window.localStorage.getItem("token"),
+        },
+      });
+
+      console.log(res);
+      setSettledExpense([...res.data.settleExpense.settleExpenseArr]);
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     console.log(params);
     async function fetchData() {
       const response = await axios({
@@ -66,6 +85,7 @@ function GroupDetails() {
       });
 
       console.log(response);
+      setGrpName(response.data.group.groupname);
       setCurrGrpMembers([...currGrpMembers, ...response.data.group.members]);
     }
     fetchData();
@@ -97,6 +117,7 @@ function GroupDetails() {
     });
 
     let res = response.data;
+    console.log(res);
     if (res.status === false) {
       return toast(res.msg, {
         position: "top-center",
@@ -131,6 +152,16 @@ function GroupDetails() {
         theme: "dark",
       });
     }
+
+    let res2 = await axios({
+      method: "post",
+      url: `http://localhost:5000/api/v1/setowe/${params.groupID}`,
+      headers: {
+        token: window.localStorage.getItem("token"),
+      },
+      data: { userID: res.user._id },
+    });
+
     toast(response.data.msg, {
       position: "top-center",
       autoClose: 500,
@@ -146,12 +177,13 @@ function GroupDetails() {
     let popGrp = groupArr.pop();
     popGrp.members.push(res.user._id);
     setGroupArr([...groupArr, popGrp]);
+    window.location.reload();
   };
   return (
     <>
       <div className="group-detail">
         <div className="group-header" style={{ border: "none" }}>
-          <h1>Group Name</h1>
+          <h1>{grpName}</h1>
           <div
             className="view-all add-grp-btn"
             onClick={handleAddExpenseRedirect}
@@ -185,13 +217,15 @@ function GroupDetails() {
           <div className="bill">
             {activeBill === "active" ? (
               <>
-                {activeExpense.map((expense,index) => {
-                  return <Bill expense={expense} key={index}/>;
+                {activeExpense.map((expense, index) => {
+                  return <Bill expense={expense} key={index} />;
                 })}
               </>
             ) : (
               <>
-                <Bill />
+                {settledExpense.map((expense, index) => {
+                  return <Bill expense={expense} key={index} />;
+                })}
               </>
             )}
           </div>
@@ -212,8 +246,14 @@ function GroupDetails() {
               type="email"
               placeholder="Search By Email..."
             />
-            <div id="search-btn" onClick={handleAddMember}>
-              search
+            <div
+              id="search-btn"
+              onClick={handleAddMember}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              add
             </div>
           </div>
 

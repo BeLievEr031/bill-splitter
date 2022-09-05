@@ -4,15 +4,33 @@ import Profile from "../Profile/Profile";
 import "./Dashboard.css";
 import { DataContext } from "../../context/DataContextProvider";
 import GroupBox from "../GroupBox/GroupBox";
-
+import { useEffect } from "react";
+import axios from "axios";
 function Dashboard() {
   const navigate = useNavigate();
-  const { user, handleActive, glbGroup,groupArr } = useContext(DataContext);
+  const { user, handleActive, glbGroup, groupArr, setGroupArr } =
+    useContext(DataContext);
 
   const handleViewAll = () => {
     navigate("/app/groups");
     handleActive();
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/v1/profile`,
+        headers: {
+          token: window.localStorage.getItem("token"),
+        },
+      });
+
+      setGroupArr([...response.data.profile.group]);
+    }
+
+    fetchData();
+  }, []);
   return (
     <>
       <div className="group-detail">
@@ -36,8 +54,8 @@ function Dashboard() {
         <div className="overview-cont">
           <h1>OverView</h1>
           <div className="expense-overview">
-            <div className="lent">Total lent : {user.lent}</div>
-            <div className="owe">Total owe: {user.owe}</div>
+            <div className="lent">Total lent : {Math.floor(user.lent)}</div>
+            <div className="owe">Total owe: {Math.floor(user.owe)}</div>
           </div>
         </div>
       </div>

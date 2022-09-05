@@ -7,13 +7,30 @@ import { useEffect } from "react";
 import axios from "axios";
 
 function Groups() {
-  const { user, glbGroup, groupArr, setGroupArr } = useContext(DataContext);
+  const { user, glbGroup, memberArr, groupArr, setGroupArr, setMemberArr } =
+    useContext(DataContext);
   // const []
   console.log(groupArr);
   const navigate = useNavigate();
   const handleAddGroup = () => {
     navigate("addgroup");
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/v1/profile`,
+        headers: {
+          token: window.localStorage.getItem("token"),
+        },
+      });
+
+      setGroupArr([...response.data.profile.group]);
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <>
