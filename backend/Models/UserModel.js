@@ -26,6 +26,14 @@ const userSchema = mongoose.Schema({
     },
   ],
 
+  lent: {
+    type: Number,
+    default: 0,
+  },
+  owe: {
+    type: Number,
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: date.format(now, "YYYY/MM/DD HH:mm:ss"),

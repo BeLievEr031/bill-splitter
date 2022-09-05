@@ -1,50 +1,13 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 const DataContext = createContext();
 function DataContextProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
   const [active, setActive] = useState("home");
   const [memberArr, setMemberArr] = useState([]);
-  const [glbGroup, setGlbGroup] = useState([
-    {
-      name: "abc",
-      desc: "group 1",
-      expense: 500,
-      members: 4,
-    },
-    {
-      name: "xyz",
-      desc: "group 2",
-      expense: 5500,
-      members: 41,
-    },
-    {
-      name: "doe",
-      desc: "group 3",
-      expense: 1500,
-      members: 45,
-    },
-    {
-      name: "ds",
-      desc: "wd",
-      expense: 500,
-      members: 4,
-    },
-    {
-      name: "wqde",
-      desc: "ef",
-      expense: 500,
-      members: 4,
-    },
-    {
-      name: "ef",
-      desc: "ee",
-      expense: 500,
-      members: 4,
-    },
-  ]);
-
+  const [glbCurrGrpMemberArr, setGlbCurrGrpMemberArr] = useState([]);
   const [groupArr, setGroupArr] = useState([]);
 
   const handleActive = () => {
@@ -65,9 +28,30 @@ function DataContextProvider({ children }) {
         },
       });
 
-      console.log(response.data);
+      console.log(response.data.profile.group);
       setMemberArr([...memberArr, { ...response.data.profile }]);
       setGroupArr([...groupArr, ...response.data.profile.group]);
+    }
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    var decoded = jwt_decode(window.localStorage.getItem("token"));
+    async function fetchData() {
+      const response = await axios({
+        method: "post",
+        url: `http://localhost:5000/api/v1/getuser`,
+        headers: {
+          token: window.localStorage.getItem("token"),
+        },
+        data: { id: decoded.userID },
+      });
+
+      console.log(response.data);
+      setUser({
+        ...response.data.user,
+      });
     }
 
     fetchData();
@@ -79,11 +63,12 @@ function DataContextProvider({ children }) {
         setUser,
         active,
         handleActive,
-        glbGroup,
         groupArr,
         setGroupArr,
         memberArr,
         setMemberArr,
+        glbCurrGrpMemberArr,
+        setGlbCurrGrpMemberArr,
       }}
     >
       {children}

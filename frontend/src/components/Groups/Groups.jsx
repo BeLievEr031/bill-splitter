@@ -9,6 +9,7 @@ import axios from "axios";
 function Groups() {
   const { user, glbGroup, groupArr, setGroupArr } = useContext(DataContext);
   // const []
+  console.log(groupArr);
   const navigate = useNavigate();
   const handleAddGroup = () => {
     navigate("addgroup");

@@ -98,8 +98,7 @@ const addMember = async (req, res) => {
 };
 
 const getGroupInfo = async (req, res) => {
-  const {groupID} = req.params;
-  console.log(groupID + "");
+  const { groupID } = req.params;
   if (!groupID) {
     return res.json({
       status: true,
@@ -127,4 +126,37 @@ const getGroupInfo = async (req, res) => {
     });
   }
 };
-export { createGroup, addMember, getGroupInfo };
+
+const populateActiveExpense = async (req, res) => {
+  const { groupID } = req.params;
+  if (!groupID) {
+    return res.json({
+      status: true,
+      msg: "Invalid Group...",
+    });
+  }
+  try {
+    const isGroup = await GroupModel.findById(groupID).populate(
+      "activeexpenseArr"
+    );
+
+    if (!isGroup) {
+      return res.json({
+        status: false,
+        msg: "Invalid Group...",
+      });
+    }
+    const activeExpense = isGroup;
+    res.json({
+      status: true,
+      activeExpense,
+    });
+  } catch (error) {
+    return res.json({
+      status: false,
+      err: error.message,
+    });
+  }
+};
+
+export { createGroup, addMember, getGroupInfo, populateActiveExpense };

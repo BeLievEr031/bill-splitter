@@ -9,7 +9,8 @@ import { DataContext } from "../../context/DataContextProvider";
 import jwtdecode from "jwt-decode";
 import axios from "axios";
 function AddGroup() {
-  // const { user } = useContext(DataContext);
+  const { groupArr, setGroupArr } = useContext(DataContext);
+
   const token = window.localStorage.getItem("token");
 
   const user = {
@@ -24,6 +25,7 @@ function AddGroup() {
   });
 
   const { memberArr, setMemberArr } = useContext(DataContext);
+  const [localMemberArr, setLocalMemberArr] = useState([...memberArr]);
   const [groupDetail, setGroupDetail] = useState({
     groupname: "",
     desc: "",
@@ -49,7 +51,7 @@ function AddGroup() {
     console.log(groupDetail);
 
     if (groupDetail.groupname.length === 0) {
-      toast("All Fields Required...", {
+      return toast("All Fields Required...", {
         position: "top-center",
         autoClose: 500,
         hideProgressBar: true,
@@ -59,7 +61,6 @@ function AddGroup() {
         type: "error",
         theme: "dark",
       });
-      return;
     }
 
     const response = await axios({
@@ -73,11 +74,33 @@ function AddGroup() {
     console.log(response);
 
     const res = response.data;
+    console.log(res);
+    setGroupArr([
+      ...groupArr,
+      {
+        ...res.group,
+      },
+    ]);
     setCurrGroupId(res.group._id);
+
+    toast("Group Added", {
+      position: "top-center",
+      autoClose: 500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      type: "success",
+      theme: "dark",
+    });
+
+    // setGroupArr([]);
   };
 
   const handleAddingMebmerToCurrGroup = async () => {
+    console.log(userEmail.email.length);
     if (userEmail.email.length === 0) {
+      console.log(454);
       return toast("All Fields Required...", {
         position: "top-center",
         autoClose: 500,
@@ -103,6 +126,7 @@ function AddGroup() {
 
     const res = response.data;
     if (res.status === false) {
+      console.log(45);
       return toast(res.msg, {
         position: "top-center",
         autoClose: 500,
@@ -161,7 +185,10 @@ function AddGroup() {
       type: "success",
       theme: "dark",
     });
-    setMemberArr([...memberArr, res.user]);
+    setLocalMemberArr([...localMemberArr, res.user]);
+    let popGrp = groupArr.pop();
+    popGrp.members.push(res.user._id);
+    setGroupArr([...groupArr, popGrp]);
   };
 
   const handleDeleteMemberFromGroup = (email) => {
@@ -219,7 +246,7 @@ function AddGroup() {
             Member list
           </h2>
           <div className="member-list">
-            {memberArr.map((member, index) => {
+            {localMemberArr.map((member, index) => {
               return (
                 <SingalMember
                   handleDeleteMemberFromGroup={handleDeleteMemberFromGroup}

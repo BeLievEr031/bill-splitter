@@ -6,29 +6,32 @@ const billSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  payi: {
+  desc: {
+    type: String,
+    required: true,
+  },
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "UserModel",
   },
-
   groupID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "GroupModel",
   },
-  otherpayi: [
+  owe: [
     {
       payi_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "UserModel",
       },
       due_amount: {
-        type: Number,
+        type: String,
         required: true,
       },
-      isPaid:{
-        type:Boolean,
-        default:false
-      }
+      isPaid: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
 });

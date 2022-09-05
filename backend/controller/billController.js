@@ -3,22 +3,15 @@ import GroupModel from "../Models/GroupModel.js";
 import BillModel from "../Models/BillModel.js";
 
 const setBill = async (req, res) => {
-  const { amount, payi, payi_id, due_amount } = req.body;
+  const { amount, desc, owner, owe } = req.body;
   const { groupID } = req.params;
 
-  if (!groupID || !amount || !payi || !payi_id || !due_amount) {
+  if (!groupID || !amount || !owner || !owe) {
     return res.json({
       status: false,
       msg: "All Fields Required....",
     });
   }
-
-  const otherpayi = [
-    {
-      payi_id,
-      due_amount,
-    },
-  ];
 
   try {
     const isGroup = await GroupModel.findById(groupID);
@@ -29,7 +22,7 @@ const setBill = async (req, res) => {
       });
     }
 
-    const isPayi = await UserModel.findById(payi);
+    const isPayi = await UserModel.findById(owner);
     if (!isPayi) {
       return res.json({
         status: false,
@@ -38,12 +31,31 @@ const setBill = async (req, res) => {
     }
     let bill = {
       amount,
-      payi,
-      otherpayi,
+      desc,
+      owner,
+      owe,
     };
 
     bill = await new BillModel(bill);
     bill.save();
+    console.log(owe);
+
+    const user = await UserModel.findById(owner);
+    user.lent = Number(user.lent) + Number(amount / (owe.length + 1));
+    user.save();
+
+    owe.map(async (member) => {
+      let user = await UserModel.findById(member.payi_id);
+      user.owe = Number(user.owe) + Number(member.due_amount);
+      user.save();
+    });
+
+    const group = await GroupModel.findById(groupID);
+    console.log(group.expenseArr);
+    group.expensesArr.push(bill._id);
+    group.activeexpenseArr.push(bill._id);
+    group.expense = Number(group.expense) + Number(amount);
+    group.save();
 
     res.json({
       status: true,

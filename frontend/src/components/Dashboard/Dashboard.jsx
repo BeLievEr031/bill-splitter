@@ -7,7 +7,7 @@ import GroupBox from "../GroupBox/GroupBox";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const { active, handleActive, glbGroup,groupArr } = useContext(DataContext);
+  const { user, handleActive, glbGroup,groupArr } = useContext(DataContext);
 
   const handleViewAll = () => {
     navigate("/app/groups");
@@ -36,8 +36,8 @@ function Dashboard() {
         <div className="overview-cont">
           <h1>OverView</h1>
           <div className="expense-overview">
-            <div className="lent">Total lent : 200</div>
-            <div className="owe">Total owe: 220</div>
+            <div className="lent">Total lent : {user.lent}</div>
+            <div className="owe">Total owe: {user.owe}</div>
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
   try {
     const isExist = await UserModel.findOne({ email })
       .select("+password")
-      .populate("group")
+      .populate("group");
     if (!isExist) {
       return res.json({
         status: false,
@@ -93,9 +93,8 @@ const getProfile = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  const { email } = req.body;
-  console.log(req.body);
-  if (!email) {
+  const { id,email } = req.body;
+  if (!id && !email) {
     return res.json({
       status: false,
       msg: "All fields required..",
@@ -103,8 +102,13 @@ const getUser = async (req, res) => {
   }
 
   try {
-    const user = await UserModel.findOne({ email });
+    let user;
 
+    if(id){
+      user = await UserModel.findById(id);
+    }else{
+      user = await UserModel.findOne({email});
+    }
     if (!user) {
       return res.json({
         status: false,
@@ -114,7 +118,6 @@ const getUser = async (req, res) => {
 
     res.json({
       status: true,
-      msg: "User Added",
       user,
     });
   } catch (error) {

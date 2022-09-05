@@ -20,7 +20,8 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const { setUser, groupArr, setGroupArr } = useContext(DataContext);
+  const { setUser, groupArr, setGroupArr, memberArr, setMemberArr } =
+    useContext(DataContext);
   const handleSignUser = (e) => {
     setSignUser({ ...signUser, [e.target.name]: e.target.value });
   };
@@ -106,10 +107,21 @@ function SignUp() {
         theme: "dark",
       });
       setUser({ ...res.user });
-
       window.localStorage.setItem("token", res.token);
-      // setGroupArr([...groupArr, ...res.user.group]);
+
+      const response = await axios({
+        method: "get",
+        url: `http://localhost:5000/api/v1/profile`,
+        headers: {
+          token: window.localStorage.getItem("token"),
+        },
+      });
+
+      console.log(response.data.profile.group);
+      setMemberArr([...memberArr, { ...response.data.profile }]);
+      setGroupArr([...groupArr, ...response.data.profile.group]);
       navigate("/app");
+      window.location.reload();
     }
   };
   return (

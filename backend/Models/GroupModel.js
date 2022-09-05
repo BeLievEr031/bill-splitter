@@ -18,6 +18,25 @@ const groupSchema = new mongoose.Schema({
       ref: "UserModel",
     },
   ],
+
+  expensesArr: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "BillModel",
+    },
+  ],
+  activeexpenseArr: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "BillModel",
+    },
+  ],
+  settleExpenseArr: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "BillModel",
+    },
+  ],
   expense: {
     type: Number,
     default: 0,
